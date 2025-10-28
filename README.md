@@ -1,13 +1,6 @@
 Changelog Generator — User Guide
 ================================
 
-Screenshots
------------
-
-![Changelog Generator - Side by side preview Light Mode](public/assets/screenshots/CG-lightmode.png)
-
-![Changelog Generator - Side by side preview Dark Mode](public/assets/screenshots/CG-darkmode.png)
-
 What this app does
 -------------------
 Changelog Generator is a small desktop utility for Windows that compares two folders of Minecraft mod .jar files and produces a human-readable changelog of Added, Updated and Removed mods.

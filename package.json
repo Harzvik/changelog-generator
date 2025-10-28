@@ -12,7 +12,7 @@
   "scripts": {
     "start": "node ./bin/mod-diff.js",
     "start:gui": "electron ./electron/main.js",
-    
+    "dist": "electron-builder",
     "test": "vitest run",
     "lint": "eslint \"src/**/*.js\" \"bin/**/*.js\"",
     "format": "prettier --write ."
@@ -29,6 +29,21 @@
   "dependencies": {},
   "devDependencies": {
     "electron": "^39.0.0",
-    "vitest": "^4.0.4"
+    "vitest": "^4.0.4",
+    "electron-builder": "^24.6.0"
+  },
+  "build": {
+    "productName": "Changelog Generator",
+    "appId": "com.harzvik.changelog-generator",
+    "asar": true,
+    "directories": {
+      "buildResources": "public/icons"
+    },
+    "files": [
+      "**/*",
+      "!test/**",
+      "!scripts/**",
+      "!dist/**"
+    ]
   }
 }

@@ -1,40 +1,33 @@
 /* Centralized styles for Mod Diff app */
 :root{
-  --bg: #fbf1c7;
-  --fg: #3c3836;
-  --panel: #f2e5bc;
-  --muted: #efdec7;
-  --accent-green: #98971a;
-  --accent-red: #cc241d;
-  --accent-yellow: #d79921;
-  --accent-blue: #458588;
-  --accent-comment: #928374;
-  --surface: #f5e0b3;
+  /* Light theme (high-contrast light defaults) */
+  --bg: #f6f4ef; /* slightly warm white */
+  --fg: #222222; /* dark text */
+  --panel: #f1ead8;
+  --muted: #d9cfc0;
+  --accent-green: #2f8f44; /* stronger green */
+  --accent-red: #cc2f2f; /* stronger red */
+  --accent-yellow: #b86b00; /* stronger yellow */
+  --accent-blue: #0f6fbf; /* stronger blue */
+  --accent-comment: #6b655d;
+  --surface: #ffffff; /* white surfaces for contrast */
 }
 
-/* Dark theme variables applied by prefers-color-scheme and/or body.dark */
-@media (prefers-color-scheme: dark){
-  :root{
-    --bg: #282828;
-    --fg: #ebdbb2;
-    --panel: #3c3836;
-    --muted: #32302f;
-    --accent-green: #98971a;
-    --accent-red: #fb4934;
-    --accent-yellow: #d79921;
-    --accent-blue: #83a598;
-    --accent-comment: #a89984;
-    --surface: #32302f;
-  }
-}
-
+/* Dark theme variables applied when `body.dark` is present */
 body.dark{
-  --bg: #0f0f10;
-  --fg: #eaeaea;
-  --panel: #0b0b0b;
-  --muted: #222;
-  --surface: #121212;
+  /* Dark theme (high-contrast dark defaults) */
+  --bg: #0b0c0d; /* near-black */
+  --fg: #e7e7e7; /* light text */
+  --panel: #0f1112; /* pane background */
+  --muted: #1f2122;
+  --accent-green: #8ad07a; /* brighter green */
+  --accent-red: #ff6b6b; /* bright red */
+  --accent-yellow: #ffd166; /* visible yellow */
+  --accent-blue: #5ea8d7; /* brighter blue for accessibility */
+  --accent-comment: #9a958a;
+  --surface: #121315; /* surface for cards/inputs */
 }
+
 
 /* Layout basics */
 body{ font-family: system-ui, Arial, sans-serif; margin:20px; background:var(--bg); color:var(--fg); }
@@ -60,18 +53,17 @@ button{ padding:6px 10px; background:var(--panel); color:var(--fg); border:1px s
 .parsed-pre{ white-space:pre-wrap; padding:8px; border-radius:6px; min-height:120px; overflow:auto; background:var(--surface); }
 
 /* Row states */
-.folder-row.removed{ background: rgba(204,36,29,0.08); color:var(--accent-red) }
-.folder-row.added{ background: rgba(152,151,26,0.08); color:var(--accent-green) }
-.folder-row.updated-old{ background: rgba(215,164,61,0.06); color:var(--accent-yellow) }
-.folder-row.updated-new{ background: rgba(66,123,153,0.06); color:var(--accent-blue) }
+.folder-row.removed{ background: rgba(255,107,107,0.12); color:var(--accent-red); }
+.folder-row.added{ background: rgba(138,208,122,0.12); color:var(--accent-green); }
+.folder-row.updated-old{ background: rgba(94,168,215,0.16); color:var(--accent-blue); }
+.folder-row.updated-new{ background: rgba(94,168,215,0.16); color:var(--accent-blue); }
 .folder-row.empty{ color:var(--accent-comment) }
 
 /* Scrollbar styling (light & dark) */
 ::-webkit-scrollbar{ width:12px; height:12px }
 ::-webkit-scrollbar-track{ background:var(--bg) }
-::-webkit-scrollbar-thumb{ background: rgba(0,0,0,0.12); border-radius:6px }
-body.dark ::-webkit-scrollbar-track{ background:#0b0b0b }
-body.dark ::-webkit-scrollbar-thumb{ background:#333 }
+::-webkit-scrollbar-thumb{ background: rgba(0,0,0,0.28); border-radius:6px }
+/* Use theme variables for scrollbar track/thumb; prefers-color-scheme and :root vars control colors */
 
 /* Responsiveness tweaks */
 @media (max-width: 900px){
@@ -90,3 +82,6 @@ body.dark ::-webkit-scrollbar-thumb{ background:#333 }
 .parsed-col{ flex:1 }
 .details-actions{ margin-top:8px; display:flex; gap:8px }
 .pane h3{ margin:0 }
+
+/* When details should be visible (toggled by JS) */
+#details.visible{ display:block }

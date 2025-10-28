@@ -27,7 +27,7 @@ function createWindow() {
 app.whenReady().then(() => {
   createWindow();
 
-  // Build application menu with a custom View menu (includes Dark Mode) and a Debug menu
+  // Build application menu with a custom View menu (includes Theme override) and a Debug menu
   const template = [
     { role: 'fileMenu' },
     { role: 'editMenu' },
@@ -38,10 +38,11 @@ app.whenReady().then(() => {
         { role: 'toggledevtools' },
         { type: 'separator' },
         {
-          label: 'Toggle Dark Mode',
+          label: 'Toggle Theme (dark/light)',
           accelerator: 'Ctrl+Shift+D',
           click: () => {
-            if (mainWindow && mainWindow.webContents) mainWindow.webContents.send('toggle-dark');
+            // Simple toggle: tell the renderer to toggle theme state.
+            if (mainWindow && mainWindow.webContents) mainWindow.webContents.send('toggle-theme');
           },
         },
       ],

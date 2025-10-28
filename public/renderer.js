@@ -168,43 +168,44 @@ function renderSideBySide(paths, txt) {
 if (window.modDiffAPI && window.modDiffAPI.onToggleDetails) {
   window.modDiffAPI.onToggleDetails(() => {
     if (!detailsDiv) return;
-    detailsDiv.style.display = detailsDiv.style.display === 'block' ? 'none' : 'block';
+    // Toggle visibility via class to avoid inline styles and let CSS handle layout
+    detailsDiv.classList.toggle('visible');
   });
 }
 
 // Theme handling: respect user toggle, persist override, and fall back to OS preference
-let _userThemeOverride = null; // '1' = dark, '0' = light, null = follow system
+// Simple theme state: read persisted override and apply; no automatic system detection
+let _userThemeOverride = null; // '1' = dark, '0' = light
 try {
   const val = localStorage.getItem('moddiff:dark');
   if (val === '1' || val === '0') _userThemeOverride = val;
 } catch (e) {}
-
-function applySystemTheme(prefersDark) {
-  if (_userThemeOverride !== null) return; // user override takes precedence
-  if (prefersDark) document.body.classList.add('dark');
-  else document.body.classList.remove('dark');
-}
+// Default to dark unless the user explicitly set light ('0') previously
+if (_userThemeOverride === '0') document.body.classList.remove('dark');
+else document.body.classList.add('dark');
 
 // Listen for Dark Mode toggle from the View menu (user override)
+// Support both the newer 'toggle-theme' channel and the legacy 'toggle-dark' event
+const _handleToggle = () => {
+  const now = document.body.classList.toggle('dark');
+  try { localStorage.setItem('moddiff:dark', now ? '1' : '0'); _userThemeOverride = now ? '1' : '0'; } catch (e) { /* ignore */ }
+  // Helpful debug trace for when the menu item is clicked
+  try { console.debug('[mod-diff] toggle-theme received, dark:', now); } catch (e) {}
+};
+let _registered = false;
+if (window.modDiffAPI && window.modDiffAPI.onToggleTheme) {
+  window.modDiffAPI.onToggleTheme(_handleToggle);
+  _registered = true;
+}
 if (window.modDiffAPI && window.modDiffAPI.onToggleDark) {
-  window.modDiffAPI.onToggleDark(() => {
-    const now = document.body.classList.toggle('dark');
-    try { localStorage.setItem('moddiff:dark', now ? '1' : '0'); _userThemeOverride = now ? '1' : '0'; } catch (e) { /* ignore */ }
-  });
+  window.modDiffAPI.onToggleDark(_handleToggle);
+  _registered = true;
+}
+if (!_registered) {
+  try { console.warn('[mod-diff] Theme toggle API not available on modDiffAPI'); } catch (e) {}
 }
 
-// Apply persisted override or system preference
-const mql = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
-if (_userThemeOverride === '1') document.body.classList.add('dark');
-else if (_userThemeOverride === '0') document.body.classList.remove('dark');
-else if (mql) applySystemTheme(mql.matches);
-
-// If system preference changes and there is no user override, update automatically
-if (mql && mql.addEventListener) {
-  mql.addEventListener('change', (e) => applySystemTheme(e.matches));
-} else if (mql && mql.addListener) {
-  mql.addListener((e) => applySystemTheme(e.matches));
-}
+// No system preference handling — theme is controlled only by the toggle and persisted override
 
 // Copy/Export parsed entries buttons (only meaningful when details panel is populated)
 if (btnCopyParsed) {

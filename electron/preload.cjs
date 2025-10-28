@@ -10,4 +10,7 @@ contextBridge.exposeInMainWorld('modDiffAPI', {
   onToggleDark: (cb) => {
     ipcRenderer.on('toggle-dark', (_e, arg) => cb(arg));
   },
+  onToggleTheme: (cb) => {
+    ipcRenderer.on('toggle-theme', (_e, arg) => cb(arg));
+  },
 });

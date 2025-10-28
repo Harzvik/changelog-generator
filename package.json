@@ -1,11 +1,10 @@
 {
-  "name": "changelog-generator",
-  "version": "1.0.0",
+  "name": "mod-diff",
+  "version": "0.1.0",
   "description": "CLI to compare two directories of Minecraft mod .jar files and generate Added/Updated/Removed changelogs.",
   "type": "module",
-  "main": "electron/main.js",
   "bin": {
-    "changelog-generator": "./bin/mod-diff.js"
+    "mod-diff": "./bin/mod-diff.js"
   },
   "engines": {
     "node": ">=18"
@@ -14,7 +13,6 @@
     "start": "node ./bin/mod-diff.js",
     "start:gui": "electron ./electron/main.js",
     
-    "dist": "electron-builder",
     "test": "vitest run",
     "lint": "eslint \"src/**/*.js\" \"bin/**/*.js\"",
     "format": "prettier --write ."
@@ -28,56 +26,9 @@
     "cli"
   ],
   "license": "MIT",
-  "author": "",
   "dependencies": {},
   "devDependencies": {
     "electron": "^39.0.0",
-    "vitest": "^4.0.4",
-    "electron-builder": "^24.6.0"
-  },
-  "build": {
-    "appId": "com.harzvik.changelog-generator",
-    "productName": "Changelog Generator",
-    "asar": true,
-    "compression": "maximum",
-    "files": [
-      "bin/**/*",
-      "electron/**/*",
-      "public/**/*",
-      "src/**/*",
-      "package.json",
-      "!**/test/**",
-      "!test/**",
-      "!**/*.map",
-      "!**/*.log",
-      "!**/scripts/**",
-      "!**/*.md"
-    ],
-    "directories": {
-      "buildResources": "public/icons"
-    },
-    "win": {
-      "target": [
-        {
-          "target": "nsis",
-          "arch": ["x64"]
-        }
-      ],
-      "icon": "app.ico"
-    },
-    "nsis": {
-      "oneClick": false,
-      "perMachine": false,
-      "allowElevation": true,
-      "allowToChangeInstallationDirectory": true
-    },
-    "mac": {
-      "icon": "app.icns",
-      "target": ["dmg", "zip"]
-    },
-    "linux": {
-      "icon": "png",
-      "target": ["AppImage"]
-    }
+    "vitest": "^4.0.4"
   }
 }

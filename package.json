@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "CLI to compare two directories of Minecraft mod .jar files and generate Added/Updated/Removed changelogs.",
   "type": "module",
+  "main": "electron/main.js",
   "bin": {
     "mod-diff": "./bin/mod-diff.js"
   },

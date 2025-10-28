@@ -1,0 +1,33 @@
+{
+  "name": "mod-diff",
+  "version": "0.1.0",
+  "description": "CLI to compare two directories of Minecraft mod .jar files and generate Added/Updated/Removed changelogs.",
+  "type": "module",
+  "bin": {
+    "mod-diff": "./bin/mod-diff.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node ./bin/mod-diff.js",
+    "start:gui": "electron ./electron/main.js",
+    "test": "vitest run",
+    "lint": "eslint \"src/**/*.js\" \"bin/**/*.js\"",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "minecraft",
+    "mods",
+    "diff",
+    "changelog",
+    "jar",
+    "cli"
+  ],
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^39.0.0",
+    "vitest": "^4.0.4"
+  }
+}

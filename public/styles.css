@@ -1,0 +1,92 @@
+/* Centralized styles for Mod Diff app */
+:root{
+  --bg: #fbf1c7;
+  --fg: #3c3836;
+  --panel: #f2e5bc;
+  --muted: #efdec7;
+  --accent-green: #98971a;
+  --accent-red: #cc241d;
+  --accent-yellow: #d79921;
+  --accent-blue: #458588;
+  --accent-comment: #928374;
+  --surface: #f5e0b3;
+}
+
+/* Dark theme variables applied by prefers-color-scheme and/or body.dark */
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg: #282828;
+    --fg: #ebdbb2;
+    --panel: #3c3836;
+    --muted: #32302f;
+    --accent-green: #98971a;
+    --accent-red: #fb4934;
+    --accent-yellow: #d79921;
+    --accent-blue: #83a598;
+    --accent-comment: #a89984;
+    --surface: #32302f;
+  }
+}
+
+body.dark{
+  --bg: #0f0f10;
+  --fg: #eaeaea;
+  --panel: #0b0b0b;
+  --muted: #222;
+  --surface: #121212;
+}
+
+/* Layout basics */
+body{ font-family: system-ui, Arial, sans-serif; margin:20px; background:var(--bg); color:var(--fg); }
+header{ margin-bottom:16px }
+.row{ display:flex; align-items:center; gap:8px; margin-bottom:10px }
+input[type=text]{ width:520px; padding:6px; background:var(--surface); color:var(--fg); border:1px solid var(--muted); }
+button{ padding:6px 10px; background:var(--panel); color:var(--fg); border:1px solid var(--muted); cursor:pointer }
+#results{ margin-top:16px; white-space:pre-wrap; padding:12px; border-radius:6px; background:var(--surface); border:1px solid var(--muted); max-height:320px; overflow:auto }
+.section{ margin-top:20px }
+.scrollbox{ max-height:320px; overflow:auto; padding:6px; border-radius:4px; background:transparent; min-width:0 }
+
+/* Folders container */
+.folders{ display:flex; gap:12px; padding:8px; border-radius:6px; border:1px solid var(--muted); background:var(--panel) }
+.pane{ flex:1; display:flex; flex-direction:column; gap:8px; min-width:0 }
+.pane .title-row{ display:flex; justify-content:space-between; align-items:center }
+.count{ font-size:0.9rem; color:var(--accent-comment) }
+.folder-header{ display:grid; grid-template-columns: 1fr 120px 1fr; gap:8px; padding:6px 4px; border-bottom:1px solid var(--muted); font-weight:600; margin-top:6px }
+.list-body .folder-row{ display:grid; grid-template-columns: 1fr 120px minmax(0,1fr); gap:8px; padding:6px 4px; border-bottom:1px dashed var(--muted); align-items:center; min-width:0 }
+.list-body .folder-row > div{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0 }
+.list-body .folder-row .version{ text-align:center }
+
+/* Parsed details pre */
+.parsed-pre{ white-space:pre-wrap; padding:8px; border-radius:6px; min-height:120px; overflow:auto; background:var(--surface); }
+
+/* Row states */
+.folder-row.removed{ background: rgba(204,36,29,0.08); color:var(--accent-red) }
+.folder-row.added{ background: rgba(152,151,26,0.08); color:var(--accent-green) }
+.folder-row.updated-old{ background: rgba(215,164,61,0.06); color:var(--accent-yellow) }
+.folder-row.updated-new{ background: rgba(66,123,153,0.06); color:var(--accent-blue) }
+.folder-row.empty{ color:var(--accent-comment) }
+
+/* Scrollbar styling (light & dark) */
+::-webkit-scrollbar{ width:12px; height:12px }
+::-webkit-scrollbar-track{ background:var(--bg) }
+::-webkit-scrollbar-thumb{ background: rgba(0,0,0,0.12); border-radius:6px }
+body.dark ::-webkit-scrollbar-track{ background:#0b0b0b }
+body.dark ::-webkit-scrollbar-thumb{ background:#333 }
+
+/* Responsiveness tweaks */
+@media (max-width: 900px){
+  .folder-header, .list-body .folder-row{ grid-template-columns: 1fr 100px 1fr }
+  input[type=text]{ width: 100%; }
+}
+
+@media (max-width: 640px){
+  .folders{ flex-direction:column }
+}
+
+/* Controls & details */
+.controls-row{ margin-top:12px; display:flex; gap:12px; align-items:center }
+#details{ display:none; margin-top:8px }
+.details-columns{ display:flex; gap:12px }
+.parsed-col{ flex:1 }
+.details-actions{ margin-top:8px; display:flex; gap:8px }
+.pane h3{ margin:0 }

@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Changelog Generator</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header>
+      <h1>Changelog Generator</h1>
+      <p>Select two mod directories (old and new), then generate a changelog.</p>
+    </header>
+
+    <div class="row">
+      <label for="oldDir">Old directory:</label>
+  <input id="oldDir" type="text" placeholder="Choose folder..." />
+      <button id="btnPickOld">Browse...</button>
+    </div>
+
+    <div class="row">
+      <label for="newDir">New directory:</label>
+  <input id="newDir" type="text" placeholder="Choose folder..." />
+      <button id="btnPickNew">Browse...</button>
+    </div>
+
+    <div class="row">
+      <button id="btnRun">Generate preview</button>
+      <button id="btnSave" disabled>Generate changelog (.txt)</button>
+    </div>
+
+    <div class="section">
+      <div id="folders" class="folders">
+        <div class="pane">
+          <div class="title-row">
+            <h3>Old folder</h3>
+            <div class="count">Count: <span id="oldCount">0</span></div>
+          </div>
+          <div class="folder-header"> 
+            <div>Key</div><div class="version">Version</div><div>Filename</div>
+          </div>
+          <div id="leftList" class="scrollbox list-body"></div>
+        </div>
+        <div class="pane">
+          <div class="title-row">
+            <h3>New folder</h3>
+            <div class="count">Count: <span id="newCount">0</span></div>
+          </div>
+          <div class="folder-header"> 
+            <div>Key</div><div class="version">Version</div><div>Filename</div>
+          </div>
+          <div id="rightList" class="scrollbox list-body"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-row">
+      <!-- Parsing details toggle removed from UI; available via Debug menu -->
+    </div>
+
+    <div id="details" class="section" >
+      <h3>Parsed entries</h3>
+      <div class="details-columns">
+        <div class="parsed-col">
+          <h4>Old entries</h4>
+          <pre id="oldEntries" class="parsed-pre"></pre>
+        </div>
+        <div class="parsed-col">
+          <h4>New entries</h4>
+          <pre id="newEntries" class="parsed-pre"></pre>
+        </div>
+      </div>
+      <div class="details-actions">
+        <button id="btnCopyParsed">Copy parsed JSON</button>
+        <button id="btnExportParsed">Export parsed (.json)</button>
+      </div>
+    </div>
+
+    <div id="results" class="section">No results yet.</div>
+
+    <script src="renderer.js"></script>
+  </body>
+</html>

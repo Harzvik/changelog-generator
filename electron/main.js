@@ -1,6 +1,7 @@
-import { app, BrowserWindow, dialog, ipcMain, Menu } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, Menu, nativeImage } from 'electron';
 import path from 'node:path';
-import fs from 'node:fs/promises';
+import fsp from 'node:fs/promises';
+import fs from 'node:fs';
 import { scanJarDir } from '../src/scan.js';
 import { parseEntries } from '../src/parse.js';
 import { diffEntries } from '../src/diff.js';
@@ -8,7 +9,41 @@ import { toMarkdown, toText } from '../src/format.js';
 
 let mainWindow;
 
+// Ensure Windows has an App User Model ID so the taskbar groups and pins use our icon
+if (process.platform === 'win32' && typeof app.setAppUserModelId === 'function') {
+  // Use a reverse-domain identifier — change if you have a packaged app id
+  app.setAppUserModelId('com.harzvik.mod-diff');
+}
+
 function createWindow() {
+  // choose platform-appropriate icon if available (ICO for Windows, ICNS for macOS, PNG for Linux)
+  let iconPath = path.join(process.cwd(), 'public', 'icon.svg');
+  try {
+    if (process.platform === 'win32') {
+      const maybe = path.join(process.cwd(), 'public', 'icons', 'app.ico');
+      // prefer generated ICO
+      if (fs.existsSync(maybe)) iconPath = maybe;
+    } else if (process.platform === 'darwin') {
+      const maybe = path.join(process.cwd(), 'public', 'icons', 'app.icns');
+      if (fs.existsSync(maybe)) iconPath = maybe;
+    } else {
+      const maybe = path.join(process.cwd(), 'public', 'icons', 'png', 'icon-512.png');
+      if (fs.existsSync(maybe)) iconPath = maybe;
+    }
+  } catch (e) {
+    // fall back to SVG if checks fail
+    iconPath = path.join(process.cwd(), 'public', 'icon.svg');
+  }
+
+  // Try to use an Electron nativeImage so the icon is recognized by the OS/taskbar
+  let iconForWindow = iconPath;
+  try {
+    const img = nativeImage.createFromPath(iconPath);
+    if (!img.isEmpty()) iconForWindow = img;
+  } catch (e) {
+    // keep iconPath as string fallback
+  }
+
   mainWindow = new BrowserWindow({
     width: 900,
     height: 700,
@@ -18,6 +53,8 @@ function createWindow() {
       contextIsolation: true,
       nodeIntegration: false,
     },
+    // App icon (platform-specific generated assets preferred).
+    icon: iconForWindow,
     title: 'Mod Diff',
   });
 

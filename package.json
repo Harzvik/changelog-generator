@@ -12,6 +12,7 @@
   "scripts": {
     "start": "node ./bin/mod-diff.js",
     "start:gui": "electron ./electron/main.js",
+    
     "test": "vitest run",
     "lint": "eslint \"src/**/*.js\" \"bin/**/*.js\"",
     "format": "prettier --write ."

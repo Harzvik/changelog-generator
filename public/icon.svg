@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Changelog icon">
+  <!-- One groovy Gruvbox-flavored icon: rounded corners enforced via clipPath, no badge/dot shapes -->
+  <defs>
+    <linearGradient id="g1" x1="0" x2="1">
+      <stop offset="0" stop-color="#282828" />
+      <stop offset="1" stop-color="#3c3836" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0" x2="1">
+      <stop offset="0" stop-color="#d65d0e" />
+      <stop offset="1" stop-color="#b57614" />
+    </linearGradient>
+    <!-- clip everything to a rounded rect so all corners are rounded visually -->
+    <clipPath id="clip-rounded">
+      <rect width="256" height="256" rx="36" ry="36" />
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#clip-rounded)">
+    <!-- background rounded (visually clipped) -->
+    <rect width="256" height="256" rx="36" fill="url(#g1)" />
+
+    <!-- groovy layered waves (Gruvbox hues) -->
+    <g transform="translate(0,0)">
+      <path d="M0 160 C48 120, 104 200, 160 160 C216 120, 256 180, 256 180 L256 256 L0 256 Z" fill="#504945" opacity="0.9" />
+      <path d="M0 136 C56 100, 112 160, 168 120 C224 80, 256 140, 256 140 L256 256 L0 256 Z" fill="#7c6f64" opacity="0.86" />
+      <path d="M0 112 C64 80, 120 120, 176 88 C232 56, 256 108, 256 108 L256 256 L0 256 Z" fill="#fbf1c7" opacity="0.16" />
+    </g>
+
+    <!-- central rounded card representing a changelog sheet (no colored badges/dots) -->
+    <g transform="translate(44,36)">
+      <rect x="0" y="0" width="168" height="184" rx="18" fill="#fbf1c7" opacity="0.98" />
+      <!-- subtle inner shadow -->
+      <rect x="6" y="6" width="156" height="172" rx="12" fill="none" stroke="#000" opacity="0.04" />
+
+      <!-- three groovy lines -->
+      <g fill="#3c3836" opacity="0.95">
+        <rect x="28" y="36" width="112" height="12" rx="6" />
+        <rect x="28" y="70" width="112" height="12" rx="6" />
+        <rect x="28" y="104" width="80" height="12" rx="6" />
+      </g>
+    </g>
+  </g>
+</svg>

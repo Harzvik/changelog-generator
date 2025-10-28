@@ -17,3 +17,6 @@ coverage/
 
 # Output
 *.log
+
+#GitHub
+.github/

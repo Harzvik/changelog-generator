@@ -1,11 +1,11 @@
 {
-  "name": "mod-diff",
-  "version": "0.1.0",
+  "name": "changelog-generator",
+  "version": "1.0.0",
   "description": "CLI to compare two directories of Minecraft mod .jar files and generate Added/Updated/Removed changelogs.",
   "type": "module",
   "main": "electron/main.js",
   "bin": {
-    "mod-diff": "./bin/mod-diff.js"
+    "changelog-generator": "./bin/mod-diff.js"
   },
   "engines": {
     "node": ">=18"
@@ -39,6 +39,15 @@
     "asar": true,
     "directories": {
       "buildResources": "public/icons"
+    },
+    "win": {
+      "icon": "public/icons/app.ico"
+    },
+    "mac": {
+      "icon": "public/icons/app.icns"
+    },
+    "linux": {
+      "icon": "public/icons/png/icon-512.png"
     },
     "files": [
       "**/*",

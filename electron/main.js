@@ -11,54 +11,53 @@ let mainWindow;
 
 // Ensure Windows has an App User Model ID so the taskbar groups and pins use our icon
 if (process.platform === 'win32' && typeof app.setAppUserModelId === 'function') {
-  // Use a reverse-domain identifier — change if you have a packaged app id
-  app.setAppUserModelId('com.harzvik.mod-diff');
+  app.setAppUserModelId('com.harzvik.changelog-generator');
 }
 
 function createWindow() {
+  // When packaged, resources are located relative to app.getAppPath(); in dev we use process.cwd().
+  const appBase = app.isPackaged ? app.getAppPath() : process.cwd();
+
   // choose platform-appropriate icon if available (ICO for Windows, ICNS for macOS, PNG for Linux)
-  let iconPath = path.join(process.cwd(), 'public', 'icon.svg');
+  let iconPath = path.join(appBase, 'public', 'icon.svg');
   try {
     if (process.platform === 'win32') {
-      const maybe = path.join(process.cwd(), 'public', 'icons', 'app.ico');
-      // prefer generated ICO
+      const maybe = path.join(appBase, 'public', 'icons', 'app.ico');
       if (fs.existsSync(maybe)) iconPath = maybe;
     } else if (process.platform === 'darwin') {
-      const maybe = path.join(process.cwd(), 'public', 'icons', 'app.icns');
+      const maybe = path.join(appBase, 'public', 'icons', 'app.icns');
       if (fs.existsSync(maybe)) iconPath = maybe;
     } else {
-      const maybe = path.join(process.cwd(), 'public', 'icons', 'png', 'icon-512.png');
+      const maybe = path.join(appBase, 'public', 'icons', 'png', 'icon-512.png');
       if (fs.existsSync(maybe)) iconPath = maybe;
     }
   } catch (e) {
-    // fall back to SVG if checks fail
-    iconPath = path.join(process.cwd(), 'public', 'icon.svg');
+    iconPath = path.join(appBase, 'public', 'icon.svg');
   }
 
-  // Try to use an Electron nativeImage so the icon is recognized by the OS/taskbar
+  // Use Electron nativeImage so the icon is recognized by the OS/taskbar
   let iconForWindow = iconPath;
   try {
     const img = nativeImage.createFromPath(iconPath);
     if (!img.isEmpty()) iconForWindow = img;
   } catch (e) {
-    // keep iconPath as string fallback
+    // keep iconPath as fallback
   }
 
   mainWindow = new BrowserWindow({
     width: 900,
     height: 700,
     webPreferences: {
-      // Use a CommonJS preload script to ensure the context bridge works reliably
-      preload: path.join(process.cwd(), 'electron', 'preload.cjs'),
+      // Preload path should be resolved relative to the app base (packaged or dev)
+      preload: path.join(appBase, 'electron', 'preload.cjs'),
       contextIsolation: true,
       nodeIntegration: false,
     },
-    // App icon (platform-specific generated assets preferred).
     icon: iconForWindow,
-    title: 'Mod Diff',
+    title: 'Changelog Generator',
   });
 
-  mainWindow.loadFile(path.join(process.cwd(), 'public', 'index.html'));
+  mainWindow.loadFile(path.join(appBase, 'public', 'index.html'));
 }
 
 app.whenReady().then(() => {

@@ -18,5 +18,10 @@ coverage/
 # Output
 *.log
 
+# Build / packaging outputs
+dist/
+build/
+release/
+
 #GitHub
 .github/
